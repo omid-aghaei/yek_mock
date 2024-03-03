@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from "axios";
-import { app_data_contacts, app_data_sources, app_action_balance_single, app_action_balance_all } from '@/app_data'
+import { app_data_contacts, app_data_sources, app_action_balance_single, app_action_balance_all, app_result_balance_all, app_result_balance_single } from '@/app_data'
 
 const logs = ref([])
 const logMe = function(text) { logs.value.unshift(text) }
@@ -50,23 +50,44 @@ const wsConnect = function() {
     logMe('WS Receive : ' + event.data)
     try {
       const t = JSON.parse(event.data)
-      if (t.action === 'contactList') { app_get_contacts() }
-      if (t.action === 'sources') { app_get_sources() }
+      if (t.action === 'contactList') { app_get_contacts(event.data) }
+      if (t.action === 'sources') { app_get_sources(event.data) }
+      if (t.action === 'balance' && t.params.type === 'SINGLE') { app_get_balance_single(event.data) }
+      if (t.action === 'balance' && t.params.type === 'ALL') { app_get_balance_all(event.data) }
     } catch (e) { console.log(e) }
   }
 }
 const wsDisconnect = function() { if (ws.value !== null) { ws.value.close(1000); ws.value = null } }
+const clear = function() { logs.value.length = 0 }
 
 // app simulator
 const timeout = function(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
-const app_get_contacts = async function() {
+const app_get_contacts = async function(t) {
+  logMe('App Send Request : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
+  logMe('App Receive : Contact List')
   logMe('WS Send : Contacts List'); ws.value.send(JSON.stringify(app_data_contacts))
 }
-const app_get_sources = async function() {
+const app_get_sources = async function(t) {
+  logMe('App Send Request : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
+  logMe('App Receive : Sources List')
   logMe('WS Send : Sources List'); ws.value.send(JSON.stringify(app_data_sources))
 }
+
+const app_get_balance_single = async function(t) {
+  logMe('App Send Request : ' + t)
+  logMe('Wait for 1s'); await timeout(1000)
+  logMe('App Receive : Balance Single')
+  logMe('Widget : ' + JSON.stringify(app_result_balance_single))
+}
+const app_get_balance_all = async function(t) {
+  logMe('App Send Request : ' + t)
+  logMe('Wait for 1s'); await timeout(1000)
+  logMe('App Receive : Balance All')
+  logMe('Widget : ' + JSON.stringify(app_result_balance_all))
+}
+
 </script>
 
 <template>
@@ -78,6 +99,7 @@ const app_get_sources = async function() {
       <input type="text" class="input_1" v-model="wsConversationId">
       <div class="action_1" @click="wsConnect">Connect</div>
       <div class="action_1"  @click="wsDisconnect">Disconnect</div>
+      <div class="action_1"  @click="clear">Clear</div>
       <div class="ml-auto">{{ ws === null ? 'Disconnect' : 'Connected' }}</div>
     </div>
     <div class="border rounded p-2 flex gap-2 items-center">

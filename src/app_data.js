@@ -59,8 +59,8 @@ export const app_data_contacts = {
 
 
 export const app_data_sources = {
-  "action":"sources",
-  "status":"SUCCESS",
+  "action": "sources",
+  "status": "SUCCESS",
   "data": [
     {
       "bankId": 3,
@@ -114,23 +114,56 @@ export const app_data_sources = {
 
 export const app_action_balance_single = {
   "action": "balance",
-  "params":{
-	"type":"SINGLE",
-  "source":{
-        "bankId": 18,
-        "id": 5004,
-        "title": "آينده",
-        "valueDto": {
-          "pan": "6362141807959003"
-        }
+  "params": {
+    "type": "SINGLE",
+    "source": {
+      "bankId": 18,
+      "id": 5004,
+      "title": "آينده",
+      "valueDto": {
+        "pan": "6362141807959003"
+      }
+    }
   }
-}
 }
 
 export const app_action_balance_all = {
   "action": "balance",
-  "params":{
-	"type":"ALL",
-  "source":{}
+  "params": {
+    "type": "ALL",
+    "source": {}
+  }
 }
+
+
+export const app_result_balance_all = {
+  "action": "balance",
+  "data": {
+    "blockedBalance": 0,
+    "totalBalance": 633613,
+    "withdrawalBalance": 133613
+  },
+  "Status": "SUCCESS"
+}
+
+export const app_result_balance_single = {
+  "action": "balance",
+  "bankDeposits": {
+    "data": [
+      {
+        "balances": {
+          "blockedBalance": 0,
+          "totalBalance": 633613,
+          "withdrawalBalance": 133613
+        },
+        "currency": "IRR",
+        "depositGroupType": "SHORT_ACCOUNT",
+        "depositNumber": "114-800-6911930-1",
+        "enabled": true,
+        "iban": "IR410550011480006911930001",
+        "id": 20515
+      }
+    ],
+    "Status": "SUCCESS"
+  },
 }
