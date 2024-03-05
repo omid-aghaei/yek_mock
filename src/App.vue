@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from "axios";
-import { app_data_contacts, app_data_sources, app_action_balance_single, app_action_balance_all, app_result_balance_all, app_result_balance_single } from '@/app_data'
+import { app_data_contacts, app_data_sources, app_action_balance, app_result_balance } from '@/app_data'
 
 const logs = ref([])
 const logMe = function(text) { logs.value.unshift(text) }
@@ -25,19 +25,12 @@ const sendGetSources = async function() {
     logMe('Result API Get Sources : ' + JSON.stringify(data))
   } catch (e) { logMe('Error API Get Sources : ' + e.response.data.StatusCode) }
 }
-const sendPostCommandBalanceSingle = async function() {
+const sendPostCommandBalance = async function() {
   try {
-    logMe('Call API Post Command Balance Single')
-    const { data } = await axios.post(`http://${wsAddress.value}Conversation/${wsConversationId.value}/command`, app_action_balance_single);
-    logMe('Result API Post Command Balance Single : ' + JSON.stringify(data))
-  } catch (e) { logMe('Error API Post Command Balance Single : ' + e.response.data.StatusCode) }
-}
-const sendPostCommandBalanceAll = async function() {
-  try {
-    logMe('Call API Post Command Balance All')
-    const { data } = await axios.post(`http://${wsAddress.value}Conversation/${wsConversationId.value}/command`, app_action_balance_all);
-    logMe('Result API Post Command Balance All : ' + JSON.stringify(data))
-  } catch (e) { logMe('Error API Post Command Balance All : ' + e.response.data.StatusCode) }
+    logMe('Call API Post Command Balance')
+    const { data } = await axios.post(`http://${wsAddress.value}Conversation/${wsConversationId.value}/command`, app_action_balance);
+    logMe('Result API Post Command Balance : ' + JSON.stringify(data))
+  } catch (e) { logMe('Error API Post Command Balance : ' + e.response.data.StatusCode) }
 }
 
 // ws
@@ -51,9 +44,8 @@ const wsConnect = function() {
     try {
       const t = JSON.parse(event.data)
       if (t.action === 'contactList') { app_get_contacts(event.data) }
-      if (t.action === 'sources') { app_get_sources(event.data) }
-      if (t.action === 'balance' && t.params.type === 'SINGLE') { app_get_balance_single(event.data) }
-      if (t.action === 'balance' && t.params.type === 'ALL') { app_get_balance_all(event.data) }
+      if (t.action === 'getSources') { app_get_sources(event.data) }
+      if (t.action === 'bankInfoByBankId') { app_get_balance(event.data) }
     } catch (e) { console.log(e) }
   }
 }
@@ -75,17 +67,11 @@ const app_get_sources = async function(t) {
   logMe('WS Send : Sources List'); ws.value.send(JSON.stringify(app_data_sources))
 }
 
-const app_get_balance_single = async function(t) {
+const app_get_balance = async function(t) {
   logMe('App Send Request : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
-  logMe('App Receive : Balance Single')
-  logMe('Widget : ' + JSON.stringify(app_result_balance_single))
-}
-const app_get_balance_all = async function(t) {
-  logMe('App Send Request : ' + t)
-  logMe('Wait for 1s'); await timeout(1000)
-  logMe('App Receive : Balance All')
-  logMe('Widget : ' + JSON.stringify(app_result_balance_all))
+  logMe('App Receive : Balance')
+  logMe('Widget : ' + JSON.stringify(app_result_balance))
 }
 
 </script>
@@ -105,8 +91,7 @@ const app_get_balance_all = async function(t) {
     <div class="border rounded p-2 flex gap-2 items-center">
       <div class="action_1" @click="sendGetContacts">Call API Get Contacts</div>
       <div class="action_1" @click="sendGetSources">Call API Get Sources</div>
-      <div class="action_1" @click="sendPostCommandBalanceSingle">Call API POST Command Balance Single</div>
-      <div class="action_1" @click="sendPostCommandBalanceAll">Call API POST Command Balance All</div>
+      <div class="action_1" @click="sendPostCommandBalance">Call API POST Command Balance</div>
     </div>
     <div class="border rounded p-2 grow flex flex-col gap-1 overflow-y-auto text-xs">
       <div class="text-wrap" v-for="(item, index) in logs" :key="index">{{logs.length - index}} - {{item}}</div>
