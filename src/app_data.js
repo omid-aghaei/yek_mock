@@ -58,8 +58,8 @@ export const app_data_contacts = {
   status: "SUCCESS",
 };
 
-export const app_data_sources = {
-  action: "getSources",
+export const app_data_deposits = {
+  action: "getDeposits",
   status: "SUCCESS",
   data: [
     {
