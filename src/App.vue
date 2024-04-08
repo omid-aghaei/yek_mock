@@ -18,24 +18,24 @@ const wsConversationId = ref('123456')
 // list of api calls
 const sendGetContacts = async function() {
   try {
-    logMe('Call API Get Contacts')
+    logMe('Call GET Contacts')
     const { data } = await axios.get(`http://${wsAddress.value}Conversation/${wsConversationId.value}/contacts`);
-    logMe('Result API Get Contacts : ' + JSON.stringify(data))
-  } catch (e) { logMe('Error API Get Contacts : ' + e.response.data.StatusCode) }
+    logMe('Result GET Contacts : ' + JSON.stringify(data))
+  } catch (e) { logMe('Error API GET Contacts : ' + e.response.data.StatusCode) }
 }
 const sendGetDeposits = async function() {
   try {
-    logMe('Call API Get Deposits')
+    logMe('Call GET Deposits')
     const { data } = await axios.get(`http://${wsAddress.value}Conversation/${wsConversationId.value}/deposits`);
-    logMe('Result API Get Deposits : ' + JSON.stringify(data))
-  } catch (e) { logMe('Error API Get Deposits : ' + e.response.data.StatusCode) }
+    logMe('Result GET Deposits : ' + JSON.stringify(data))
+  } catch (e) { logMe('Error API GET Deposits : ' + e.response.data.StatusCode) }
 }
 const sendPostCommandBalance = async function() {
   try {
-    logMe('Call API Post Command Balance')
+    logMe('Call POST Balance')
     const { data } = await axios.post(`http://${wsAddress.value}Conversation/${wsConversationId.value}/command`, app_action_balance_ref.value);
-    logMe('Result API Post Command Balance : ' + JSON.stringify(data))
-  } catch (e) { logMe('Error API Post Command Balance : ' + e.response.data.StatusCode) }
+    logMe('Result POST Balance : ' + JSON.stringify(data))
+  } catch (e) { logMe('Error API POST Balance : ' + e.response.data.StatusCode) }
 }
 
 // ws
@@ -51,6 +51,7 @@ const wsConnect = function() {
       if (t.action === 'contactList') { app_get_contacts(event.data) }
       if (t.action === 'getDeposits') { app_get_sources(event.data) }
       if (t.action === 'bankInfoByBankId') { app_get_balance(event.data) }
+      if (t.action === 'showBalance') { app_show_balance(event.data) }
     } catch (e) { console.log(e) }
   }
 }
@@ -60,23 +61,27 @@ const clear = function() { logs.value.length = 0 }
 // app simulator
 const timeout = function(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 const app_get_contacts = async function(t) {
-  logMe('App Send Request : ' + t)
+  logMe('YEK Asked : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
-  logMe('App Receive : Contact List')
+  logMe('Yek Answered : Contact List')
   logMe('WS Send : Contacts List'); ws.value.send(JSON.stringify(app_data_contacts_ref.value))
 }
 const app_get_sources = async function(t) {
-  logMe('App Send Request : ' + t)
+  logMe('Yek Asked : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
-  logMe('App Receive : Deposits List')
+  logMe('Yek Answered : Deposits List')
   logMe('WS Send : Deposits List'); ws.value.send(JSON.stringify(app_data_deposits_ref.value))
 }
 
 const app_get_balance = async function(t) {
-  logMe('App Send Request : ' + t)
+  logMe('Yek Asked : ' + t)
   logMe('Wait for 1s'); await timeout(1000)
-  logMe('App Receive : Balance')
-  logMe('Widget : ' + JSON.stringify(app_result_balance_ref.value))
+  logMe('Yek Answered : Balance')
+  logMe('WS Send : ‌Balance Result'); ws.value.send(JSON.stringify(app_result_balance_ref.value))
+}
+
+const app_show_balance = async function(t) {
+  logMe('Widget : ' + JSON.stringify(t))
 }
 
 const data_modal_1 = ref(false)
@@ -99,7 +104,7 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
 
 <template>
   <main class="flex flex-col gap-2 h-screen w-full p-2 text-sm relative">
-    <div class="border rounded p-2 flex gap-2 items-center">
+    <div class="border rounded p-2 flex gap-2 items-center bg-white">
       <div>WS</div>
       <input type="text" class="input_1" v-model="wsAddress">
       <div>ConversationId</div>
@@ -109,7 +114,7 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
       <div class="action_1"  @click="clear">Clear</div>
       <div class="ml-auto">{{ ws === null ? 'Disconnect' : 'Connected' }}</div>
     </div>
-    <div class="border rounded p-2 flex gap-2 items-center">
+    <div class="border rounded p-2 flex gap-2 items-center bg-white">
       <div class="action_1" @click="sendGetContacts">Call API Get Contacts</div>
       <div class="action_1" @click="sendGetDeposits">Call API Get Deposits</div>
       <div class="action_1" @click="sendPostCommandBalance">Call API POST Command Balance</div>
@@ -118,7 +123,7 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
       <div class="action_1" @click="data_modal_3_open">Edit : Balance Request</div>
       <div class="action_1" @click="data_modal_4_open">Edit : Balance Response</div>
     </div>
-    <div class="border rounded p-2 grow flex flex-col gap-1 overflow-y-auto text-xs">
+    <div class="border rounded p-2 grow flex flex-col gap-1 overflow-y-auto text-xs bg-white">
       <div class="text-wrap" v-for="(item, index) in logs" :key="index">{{logs.length - index}} - {{item}}</div>
     </div>
 
