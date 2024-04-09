@@ -61,42 +61,44 @@ export const app_data_contacts = {
 export const app_data_deposits = {
   action: "getDeposits",
   status: "SUCCESS",
-  data: [
-    {
-      bankId: 6,
-      depositDtoList: [
-        {
-          id: 1,
-          depositNumber: "16180063154051",
-          currency: {
-            currencyCode: "string",
-            displayName: "string",
-            symbol: "string",
-            defaultFractionDigits: 0,
-            numericCode: 0,
-            numericCodeAsString: "string",
-          },
-          enabled: true,
-          nickname: "خودم",
-          depositGroupType: "JARI_ACCOUNT",
-          iban: "IR420560611828005184718601",
-          cards: [
-            {
-              pan: "6274121189021264",
-              firstname: "احمد",
-              lastname: "محمدی",
-              issueDate: "2024-03-16T08:17:16.904Z",
-              expireDate: "2024-03-16T08:17:16.904Z",
-              revivalExpireDate: "2024-03-16T08:17:16.904Z",
-              revivalExpireDateCount: 0,
-              status: "OK",
-              statusCause: "OK",
+  data: {
+    bankDepositDtoList: [
+      {
+        bankId: 3,
+        depositDtoList: [
+          {
+            id: 1,
+            depositNumber: "16180063154051",
+            currency: {
+              currencyCode: "string",
+              displayName: "string",
+              symbol: "string",
+              defaultFractionDigits: 0,
+              numericCode: 0,
+              numericCodeAsString: "string",
             },
-          ],
-        },
-      ],
-    },
-  ],
+            enabled: true,
+            nickname: "خودم",
+            depositGroupType: "JARI_ACCOUNT",
+            iban: "IR420560611828005184718601",
+            cards: [
+              {
+                pan: "6274121189021264",
+                firstname: "احمد",
+                lastname: "محمدی",
+                issueDate: "2024-03-16T08:17:16.904Z",
+                expireDate: "2024-03-16T08:17:16.904Z",
+                revivalExpireDate: "2024-03-16T08:17:16.904Z",
+                revivalExpireDateCount: 0,
+                status: "OK",
+                statusCause: "OK",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export const app_action_balance = {
@@ -110,57 +112,64 @@ export const app_action_balance = {
 export const app_result_balance = {
   action: "bankInfoByBankId",
   status: "SUCCESS",
-  data: [
-    {
-      currency: "IRR",
-      bankName: "شهر",
-      depositGroupType: "SHORT_ACCOUNT",
-      depositNumber: "114-800-6911930-1",
-      nickname: "حقوق",
-      enabled: true,
-      iban: "IR410550011480006911930001",
-      id: 20515,
-      balances: {
-        blockedBalance: 0,
-        totalBalance: 633613,
-        withdrawalBalance: 133613,
-      },
-      cards: [
+  data: {
+    allBanksBalances: {
+      blockedBalance: 0,
+      totalBalance: 140500000,
+      withdrawalBalance: 30040000,
+    },
+    bankDeposits: {
+      addedDepositDtoList: [
         {
-          pan: "6274121202907416",
-          firstname: "ستوده",
-          lastname: "ابراهيمي",
-          issueDate: "2022-05-21T13:50:17+0430",
-          expireDate: "2027-05-21T00:00:00+0330",
-          status: "OK",
-          statusCause: "OK",
+          balances: {
+            blockedBalance: 0,
+            totalBalance: 20000000,
+            withdrawalBalance: 20000000,
+          },
+          cards: [
+            {
+              depositNumber: "0305374685009",
+              expireDate: "2026-01-31T00:00:00+0330",
+              firstname: "مريم",
+              issueDate: "2023-02-01T13:30:05+0330",
+              lastname: "رضايي",
+              nickname: "onvane delkhah",
+              pan: "5047061043681283",
+              revivalExpireDateCount: 0,
+              status: "OK",
+              statusCause: "OK",
+            },
+            {
+              depositNumber: "0305374685009",
+              expireDate: "2025-01-31T00:00:00+0330",
+              firstname: "مريم",
+              issueDate: "2023-02-01T13:30:05+0330",
+              lastname: "رضايي",
+              nickname: "onvane delkhah",
+              pan: "5047064031973718",
+              revivalExpireDateCount: 0,
+              status: "OK",
+              statusCause: "OK",
+            },
+          ],
+          currency: "IRR",
+          depositGroupType: "PASANDAZ",
+          depositNumber: "0305374685009",
+          enabled: true,
+          iban: "IR300660000000305374685009",
+          id: 1037,
+          nickname: "onvane delkhah",
+          referenceCif: "1",
+          referenceCustomerName: "مصطفی/عبدالهی",
         },
       ],
-    },
-    {
-      currency: "IRR",
-      bankName: "شهر",
-      depositGroupType: "SHORT_ACCOUNT",
-      depositNumber: "117-800-7914560-1",
-      enabled: true,
-      iban: "IR410550011480006911930001",
-      id: 20515,
       balances: {
         blockedBalance: 0,
-        totalBalance: 633613,
-        withdrawalBalance: 133613,
+        totalBalance: 20000000,
+        withdrawalBalance: 20000000,
       },
-      cards: [
-        {
-          pan: "6274121819765674",
-          firstname: "ستوده",
-          lastname: "ابراهيمي",
-          issueDate: "2022-05-21T13:50:17+0430",
-          expireDate: "2027-05-21T00:00:00+0330",
-          status: "OK",
-          statusCause: "OK",
-        },
-      ],
     },
-  ],
+    bankId: 3,
+    exceptionOccurred: false,
+  },
 };
