@@ -14,6 +14,7 @@ const logMe = function(text) { logs.value.unshift(text) }
 const ws = ref(null)
 const wsAddress = ref('alpha.dolphinai.ir:9123/api/v1/')
 const wsConversationId = ref('123456')
+const wsToken = ref('your_token_here')
 
 // list of api calls
 const sendGetContacts = async function() {
@@ -40,7 +41,7 @@ const sendPostCommandBalance = async function() {
 
 // ws
 const wsConnect = function() {
-  ws.value = new WebSocket(`ws://${wsAddress.value}WebSocket?ConversationId=${wsConversationId.value}`)
+  ws.value = new WebSocket(`ws://${wsAddress.value}WebSocket?ConversationId=${wsConversationId.value}`, [wsToken.value])
   ws.value.onerror = (error) => { logMe('WS Error : ' + error.code) }
   ws.value.onclose = (event) => { logMe('WS Close : ' + event.code + ' ' + event.reason) }
   ws.value.onopen = (event) => { logMe('WS Open') }
@@ -109,6 +110,8 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
       <input type="text" class="input_1" v-model="wsAddress">
       <div>ConversationId</div>
       <input type="text" class="input_1" v-model="wsConversationId">
+      <div>Token</div>
+      <input type="text" class="input_1" v-model="wsToken">
       <div class="action_1" @click="wsConnect">Connect</div>
       <div class="action_1"  @click="wsDisconnect">Disconnect</div>
       <div class="action_1"  @click="clear">Clear</div>
