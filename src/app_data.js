@@ -80,7 +80,7 @@ export const app_data_deposits = {
             enabled: true,
             nickname: "خودم",
             depositGroupType: "JARI_ACCOUNT",
-            iban: "IR420560611828005184718601",
+            iban: "IR420560751828005184718601",
             cards: [
               {
                 pan: "6274121189021264",
@@ -101,8 +101,8 @@ export const app_data_deposits = {
         bankId: 4,
         depositDtoList: [
           {
-            id: 1,
-            depositNumber: "16180063154051",
+            id: 2,
+            depositNumber: "17180663254051",
             currency: {
               currencyCode: "string",
               displayName: "string",
