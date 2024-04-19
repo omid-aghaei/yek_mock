@@ -54,7 +54,7 @@ const wsConnect = function() {
       if (t.action === 'contactList') { app_get_contacts(event.data) }
       if (t.action === 'getDeposits') { app_get_sources(event.data) }
       if (t.action === 'bankInfoByBankId') { app_get_balance(event.data) }
-      if (t.action === 'showBalance') { app_show_balance(event.data) }
+      if (t.action === 'showBalance') { app_show_balance(event.params) }
     } catch (e) { console.log(e) }
   }
 }
@@ -93,6 +93,13 @@ const app_get_balance = async function(t) {
 
 const app_show_balance = async function(t) {
   logMe('Widget : ' + JSON.stringify(t))
+  const balances = t.balances
+  balances.forEach(element => {
+    logMe('Widget Message: ' + element.message)
+    logMe('Widget Title: ' + element.title)
+    logMe('Widget Number: ' + element.entityNumber)
+    logMe('Widget Balance: ' + element.totalBalance)
+  });
 }
 
 const data_modal_1 = ref(false)
