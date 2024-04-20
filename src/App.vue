@@ -41,7 +41,7 @@ const sendPostCommandBalance = async function() {
 
 // ws
 const wsConnect = function() {
-  ws.value = new WebSocket(`ws://aa:aa@${wsAddress.value}WebSocket?ConversationId=${wsConversationId.value}`)
+  ws.value = new WebSocket(`ws://${wsAddress.value}WebSocket?ConversationId=${wsConversationId.value}`)
   ws.value.onerror = (error) => { logMe('WS Error : ' + error.code) }
   ws.value.onclose = (event) => { logMe('WS Close : ' + event.code + ' ' + event.reason) }
   ws.value.onopen = (event) => { logMe('WS Open') }
@@ -49,7 +49,7 @@ const wsConnect = function() {
     logMe('WS Receive : ' + event.data)
     try {
       const t = JSON.parse(event.data)
-      if (t.action === 'login') { app_login() }
+      if (t.action === 'getAuthToken') { app_login() }
       if (t.action === 'showMessage') { app_show_message(event.params) }
       if (t.action === 'contactList') { app_get_contacts(event.data) }
       if (t.action === 'getDeposits') { app_get_sources(event.data) }
@@ -68,8 +68,8 @@ const app_show_message = async function(t) {
 }
 const app_login = async function () {
   logMe('Dolphin asked to login')
-  logMe('WS Send : login : ' +  JSON.stringify({ action: "login", data : { token : wsToken.value } }));
-  ws.value.send(JSON.stringify({ action: "login", data : { token : wsToken.value } }))
+  logMe('WS Send : login : ' +  JSON.stringify({ action: "getAuthToken", data : { token : wsToken.value } }));
+  ws.value.send(JSON.stringify({ action: "getAuthToken", "status":"SUCCESS", data : { token : wsToken.value } }))
 }
 const app_get_contacts = async function(t) {
   logMe('YEK Asked : ' + t)
