@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from "axios";
+import widgetVue from '@/components/widget.vue'
 import { app_data_contacts, app_data_deposits, app_action_balance, app_result_balance } from '@/app_data'
 
 const app_data_contacts_ref = ref(app_data_contacts)
@@ -12,9 +13,11 @@ const logs = ref([])
 const logMe = function(text) { logs.value.unshift(text) }
 
 const ws = ref(null)
-const wsAddress = ref('alpha.dolphinai.ir:9123/api/v1/')
+const wsAddress = ref('api.dolphinai.ir/customers/yek/moderatorapi/api/v1/')
 const wsConversationId = ref('123456')
 const wsToken = ref('')
+const wsStatus = ref('disconnect')
+const isWidget = ref(false)
 
 // list of api calls
 const sendGetContacts = async function() {
@@ -43,8 +46,8 @@ const sendPostCommandBalance = async function() {
 const wsConnect = function() {
   ws.value = new WebSocket(`ws://${wsAddress.value}WebSocket?ConversationId=${wsConversationId.value}`)
   ws.value.onerror = (error) => { logMe('WS Error : ' + error.code) }
-  ws.value.onclose = (event) => { logMe('WS Close : ' + event.code + ' ' + event.reason) }
-  ws.value.onopen = (event) => { logMe('WS Open') }
+  ws.value.onclose = (event) => { wsStatus.value = 'disconnect'; logMe('WS Close : ' + event.code + ' ' + event.reason) }
+  ws.value.onopen = (event) => { wsStatus.value = 'connected'; logMe('WS Open') }
   ws.value.onmessage = (event) => {
     logMe('WS Receive : ' + event.data)
     try {
@@ -132,7 +135,8 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
       <div class="action_1" @click="wsConnect">Connect</div>
       <div class="action_1"  @click="wsDisconnect">Disconnect</div>
       <div class="action_1"  @click="clear">Clear</div>
-      <div class="ml-auto">{{ ws === null ? 'Disconnect' : 'Connected' }}</div>
+      <div class="action_1"  @click="isWidget = !isWidget">Widget</div>
+      <div class="ml-auto">{{ wsStatus }}</div>
     </div>
     <div class="border rounded p-2 flex gap-2 items-center bg-white">
       <div class="action_1" @click="sendGetContacts">Call API Get Contacts</div>
@@ -185,5 +189,6 @@ const data_modal_4_close = function() { data_modal_4.value = false; app_result_b
       </div>
     </div>
 
+    <widgetVue :id="wsConversationId" v-if="isWidget"  />
   </main>
 </template>
