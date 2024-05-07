@@ -136,7 +136,7 @@ export const app_data_deposits = {
 };
 
 export const app_action_balance = {
-  action: "bankInfoByBankId",
+  action: "bankInfoById",
   bank: {
     bankId: 3,
     title: "شهر",
@@ -144,7 +144,7 @@ export const app_action_balance = {
 };
 
 export const app_result_balance = {
-  action: "bankInfoByBankId",
+  action: "bankInfoById",
   status: "SUCCESS",
   data: {
     allBanksBalances: {
