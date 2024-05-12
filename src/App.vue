@@ -36,7 +36,7 @@ const wsConnect = function() {
       if (t.action === 'getDeposits') { app_get_sources(event.data) }
       if (t.action === 'bankInfoById') { app_get_balance(event.data) }
       if (t.action === 'showBalance') { app_show_balance(event.params) }
-      if (t.action === '“getFavoriteTransfers”') { app_get_favorite(event.params) }
+      if (t.action === 'getFavoriteTransfers') { app_get_favorite(event.params) }
       if (t.action === 'navigateKartablReport') { sendMessage(event.data) }
       if (t.action === 'navigateDepositCardStatementListScreen') { sendMessage(event.data) }
       if (t.action === 'navigatePreviewTransfer') { sendMessage(event.data) }
