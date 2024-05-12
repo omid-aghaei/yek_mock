@@ -69,14 +69,7 @@ export const app_data_deposits = {
           {
             id: 1,
             depositNumber: "16180063154051",
-            currency: {
-              currencyCode: "string",
-              displayName: "string",
-              symbol: "string",
-              defaultFractionDigits: 0,
-              numericCode: 0,
-              numericCodeAsString: "string",
-            },
+            currency: "IRR",
             enabled: true,
             nickname: "خودم",
             depositGroupType: "JARI_ACCOUNT",
@@ -103,14 +96,7 @@ export const app_data_deposits = {
           {
             id: 2,
             depositNumber: "17180663254051",
-            currency: {
-              currencyCode: "string",
-              displayName: "string",
-              symbol: "string",
-              defaultFractionDigits: 0,
-              numericCode: 0,
-              numericCodeAsString: "string",
-            },
+            currency: "IRR",
             enabled: true,
             nickname: "خودم2",
             depositGroupType: "PASANDAZ",
@@ -194,4 +180,43 @@ export const app_result_balance = {
     bankId: 3,
     exceptionOccurred: false,
   },
+};
+
+export const app_data_favorite = {
+  action: "getFavoriteTransfers",
+  status: "SUCCESS",
+  data: [
+    {
+      id: 1,
+      transferType: "CARD_TO_CARD_TRANSFER",
+      amount: 2000000,
+      title: "پرداخت شارژ ساختمان",
+      source: {
+        type: "CARD",
+        pan: "6274121189021264",
+        bankId: 3,
+      },
+      destination: {
+        type: "CARD",
+        pan: "6274121189021263",
+        bankId: 3,
+      },
+    },
+    {
+      id: 2,
+      transferType: "INSTANT_INTERBANK_TRANSFER",
+      amount: 10000000,
+      title: "پرداخت قسط صنعت",
+      source: {
+        type: "DEPOSIT",
+        depositNumber: "17180663254051",
+        bankId: 4,
+      },
+      destination: {
+        type: "IBAN",
+        iban: "IR520560611828005184718602",
+        bankId: 4,
+      },
+    },
+  ],
 };
